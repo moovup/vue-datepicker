@@ -587,18 +587,6 @@ exports.default = {
           }
         }
       }
-      // var passiveDaysAtFinal = 42 - days.length;
-      // for (var _i2 = 1; _i2 <= passiveDaysAtFinal; _i2++) {
-      //   var _passiveDay = {
-      //     value: _i2,
-      //     inMonth: false,
-      //     action: 'next',
-      //     unavailable: false,
-      //     checked: false,
-      //     moment: (0, _moment2.default)(currentMoment).add(1, 'months').date(_i2)
-      //   };
-      //   days.push(_passiveDay);
-      // }
       this.dayList = days;
     },
     checkBySelectDays: function checkBySelectDays(d, days) {
@@ -629,7 +617,6 @@ exports.default = {
       return days;
     },
     getLimitCondition: function getLimitCondition(limit, day) {
-      //var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(this.checked.month) + '-' + this.pad(day.value));
       var tempMonthPara = { "next": 1, "previous": -1};
       var tempCheckedMonth = parseInt( this.checked.month ) + (tempMonthPara[day.action] || 0);
       var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(tempCheckedMonth) + '-' + this.pad(day.value));
