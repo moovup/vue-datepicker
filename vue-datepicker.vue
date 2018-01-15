@@ -373,17 +373,12 @@ table {
 </template>
 <script>
 'use strict';
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
 var _moment = require('moment');
-
 var _moment2 = _interopRequireDefault(_moment);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = {
   props: {
     required: false,
@@ -490,7 +485,6 @@ exports.default = {
       selectedDays: []
     };
   },
-
   methods: {
     pad: function pad(n) {
       n = Math.floor(n);
@@ -548,15 +542,27 @@ exports.default = {
         };
         days.unshift(passiveDay);
       }
+
+      var passiveDaysAtFinal = 42 - days.length;
+        for (var _i2 = 1; _i2 <= passiveDaysAtFinal; _i2++) {
+          var _passiveDay = {
+            value: _i2,
+            inMonth: false,
+            action: 'next',
+            unavailable: false,
+            checked: false,
+            moment: (0, _moment2.default)(currentMoment).add(1, 'months').date(_i2)
+         };
+         days.push(_passiveDay);
+      }
+      
       if (this.limit.length > 0) {
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
-
         try {
           for (var _iterator = this.limit[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var li = _step.value;
-
             switch (li.type) {
               case 'fromto':
                 days = this.limitFromTo(li, days);
@@ -581,23 +587,22 @@ exports.default = {
           }
         }
       }
-      var passiveDaysAtFinal = 42 - days.length;
-      for (var _i2 = 1; _i2 <= passiveDaysAtFinal; _i2++) {
-        var _passiveDay = {
-          value: _i2,
-          inMonth: false,
-          action: 'next',
-          unavailable: false,
-          checked: false,
-          moment: (0, _moment2.default)(currentMoment).add(1, 'months').date(_i2)
-        };
-        days.push(_passiveDay);
-      }
+      // var passiveDaysAtFinal = 42 - days.length;
+      // for (var _i2 = 1; _i2 <= passiveDaysAtFinal; _i2++) {
+      //   var _passiveDay = {
+      //     value: _i2,
+      //     inMonth: false,
+      //     action: 'next',
+      //     unavailable: false,
+      //     checked: false,
+      //     moment: (0, _moment2.default)(currentMoment).add(1, 'months').date(_i2)
+      //   };
+      //   days.push(_passiveDay);
+      // }
       this.dayList = days;
     },
     checkBySelectDays: function checkBySelectDays(d, days) {
       var _this = this;
-
       this.selectedDays.forEach(function (day) {
         if (_this.checked.year === (0, _moment2.default)(day).format('YYYY') && _this.checked.month === (0, _moment2.default)(day).format('MM') && d === Math.ceil((0, _moment2.default)(day).format('D'))) {
           days[d - 1].checked = true;
@@ -614,7 +619,6 @@ exports.default = {
     },
     limitFromTo: function limitFromTo(limit, days) {
       var _this2 = this;
-
       if (limit.from || limit.to) {
         days.map(function (day) {
           if (_this2.getLimitCondition(limit, day)) {
@@ -625,7 +629,10 @@ exports.default = {
       return days;
     },
     getLimitCondition: function getLimitCondition(limit, day) {
-      var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(this.checked.month) + '-' + this.pad(day.value));
+      //var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(this.checked.month) + '-' + this.pad(day.value));
+      var tempMonthPara = { "next": 1, "previous": -1};
+      var tempCheckedMonth = parseInt( this.checked.month ) + (tempMonthPara[day.action] || 0);
+      var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(tempCheckedMonth) + '-' + this.pad(day.value));
       if (limit.from && !limit.to) {
         return !tmpMoment.isAfter(limit.from);
       } else if (!limit.from && limit.to) {
@@ -672,7 +679,6 @@ exports.default = {
     },
     showYear: function showYear() {
       var _this3 = this;
-
       var year = (0, _moment2.default)(this.checked.currentMoment).year();
       this.library.year = [];
       var yearTmp = [];
@@ -725,7 +731,6 @@ exports.default = {
     },
     addYear: function addYear() {
       var _this4 = this;
-
       var listDom = document.getElementById('yearList');
       listDom.addEventListener('scroll', function (e) {
         if (listDom.scrollTop < listDom.scrollHeight - 100) {
@@ -770,11 +775,9 @@ exports.default = {
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
-
       try {
         for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var item = _step2.value;
-
           item.checked = false;
           if (item.value === obj.value) {
             item.checked = true;
