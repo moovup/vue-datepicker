@@ -365,7 +365,6 @@ table {
         </div>
         <div class="button-box">
           <span @click="showInfo.check=false">{{option.buttons? option.buttons.cancel : 'Cancel' }}</span>
-          <span @click="picked">{{option.buttons? option.buttons.ok : 'Ok'}}</span>
         </div>
       </div>
     </div>
@@ -414,7 +413,6 @@ exports.default = {
           },
           placeholder: 'when?',
           buttons: {
-            ok: 'OK',
             cancel: 'Cancel'
           },
           overlayOpacity: 0.5,
@@ -639,6 +637,7 @@ exports.default = {
         this.dayList.forEach(function (x) {
           x.checked = false;
         });
+        
         this.checked.day = this.pad(obj.value);
         obj.checked = true;
       } else {
